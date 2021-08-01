@@ -1,5 +1,6 @@
 async function getPlayerGames() {
-    var url = new URL("https://lichess.org/api/games/user/MrFoxGaming");
+    var playerName = $('#playerName').val();
+    var url = new URL(`https://lichess.org/api/games/user/${playerName}`);
     url.search = new URLSearchParams({max: 10});
     const response = await fetch(url);
     const reader = response.body
