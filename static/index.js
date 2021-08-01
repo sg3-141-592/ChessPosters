@@ -17,7 +17,7 @@ async function getPlayerGames() {
 // TODO: Refactor this in future to use a generic method instead of having
 // a seperate regex for each value extracted.
 const whiteNameRegEx = /\[White \"(.+)\"\]/;
-const blackNameRegEx = /\[White \"(.+)\"\]/;
+const blackNameRegEx = /\[Black \"(.+)\"\]/;
 
 function extractGameData(data) {
     var whiteName = whiteNameRegEx.exec(data)[1];
