@@ -1,0 +1,21 @@
+[Event "Rated Rapid game"]
+[Site "https://lichess.org/brWeKr6G"]
+[Date "2021.08.01"]
+[White "MrFoxGaming"]
+[Black "ayoon"]
+[Result "1-0"]
+[UTCDate "2021.08.01"]
+[UTCTime "05:57:34"]
+[WhiteElo "1171"]
+[BlackElo "1143"]
+[WhiteRatingDiff "+6"]
+[BlackRatingDiff "-5"]
+[Variant "Standard"]
+[TimeControl "600+0"]
+[ECO "B00"]
+[Opening "Duras Gambit"]
+[Termination "Normal"]
+
+1. e4 f5 2. exf5 Nf6 3. Bc4 d5 4. Bb3 Bxf5 5. Nf3 c5 6. Nc3 d4 7. Nb5 a6 8. Ne5 axb5 9. Nf7 Bg4 10. f3 Bxf3 11. Qxf3 Qc8 12. Nxh8 c4 13. Bxc4 bxc4 14. O-O Qc5 15. Qxb7 d3+ 16. Rf2 Ne4 17. Qxa8 Nxf2 18. Qxb8+ Kd7 19. Qxf8 Ne4+ 20. Kf1 dxc2 21. Qxg7 Qb5 22. Qg4+ e6 23. Qxe4 c3+ 24. Qe2 Qxe2+ 25. Kxe2 cxb2 26. Bxb2 Kd6 27. Rc1 Kd5 28. Rxc2 Ke4 29. a4 Kf4 30. a5 1-0
+
+
