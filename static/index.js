@@ -3,15 +3,21 @@ async function getPlayerGames() {
     var url = new URL(`https://lichess.org/api/games/user/${playerName}`);
     url.search = new URLSearchParams({max: 10});
     const response = await fetch(url);
-    const reader = response.body
-        .pipeThrough(new TextDecoderStream())
-        .getReader();
-    while (true) {
-        const { value, done } = await reader.read();
-        if (done) {
-            break;
+    if (response.status != 200) {
+        console.log(response.text);
+    }
+    else
+    {
+        const reader = response.body
+            .pipeThrough(new TextDecoderStream())
+            .getReader();
+        while (true) {
+            const { value, done } = await reader.read();
+            if (done) {
+                break;
+            }
+            extractGameData(value);
         }
-        extractGameData(value);
     }
 }
 
@@ -19,13 +25,17 @@ async function getPlayerGames() {
 // a seperate regex for each value extracted.
 const whiteNameRegEx = /\[White \"(.+)\"\]/;
 const blackNameRegEx = /\[Black \"(.+)\"\]/;
+const whiteEloRegEx = /\[WhiteElo \"(.+)\"\]/;
+const blackEloRegEx = /\[BlackElo \"(.+)\"\]/;
 
 function extractGameData(data) {
     var whiteName = whiteNameRegEx.exec(data)[1];
     var blackName = blackNameRegEx.exec(data)[1];
+    var whiteElo = whiteEloRegEx.exec(data)[1];
+    var blackElo = blackEloRegEx.exec(data)[1];
     $('#playerGames').append(
         $('<div>').html(
-            whiteName + " vs " + blackName + "\n"
+            `${whiteName} ${whiteElo} - ${blackName} ${blackElo}`
         )
     );
 }
