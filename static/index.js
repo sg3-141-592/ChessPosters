@@ -22,19 +22,24 @@ async function getPlayerGames() {
     }
 }
 
+var gameData = [];
+
 // Send the PGN of a game to be rendered
 function renderPreview(gameId) {
     var renderRequest = $.ajax({
         type: "POST",
         url: "./api/render",
-        data: {
-            gameId: gameId
-        }
+        data: JSON.stringify({
+            gameData: gameData[gameId]
+        }),
+        contentType: "application/json",
+        dataType: "json"
+    }).done(function(data) {
+        $('#previewWindow').attr('src', `rendered/${data.id}.svg`);
+    }).fail(function(err) {
+        console.log(err);
     });
-    renderRequest.done(console.log("Hi"));
 }
-
-var gameData = [];
 
 // TODO: Refactor this in future to use a generic method instead of having
 // a seperate regex for each value extracted.
@@ -50,8 +55,10 @@ function extractGameData(data) {
     var whiteElo = whiteEloRegEx.exec(data)[1];
     var blackElo = blackEloRegEx.exec(data)[1];
     $('#playerGames').append(
-        $('<div>').html(
-            `${whiteName} ${whiteElo} - ${blackName} ${blackElo}`
-        )
+        $('<div>')
+            .attr('onclick', `renderPreview(${gameData.length-1})`)
+            .text(
+                `${whiteName} ${whiteElo} - ${blackName} ${blackElo}`
+            )
     );
 }
