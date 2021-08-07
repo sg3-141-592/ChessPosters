@@ -1,2 +1,3 @@
 venv/
 static/rendered/
+**/__pycache__/

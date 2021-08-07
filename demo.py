@@ -21,8 +21,8 @@ for move in game.mainline_moves():
         outFile.close()
     counter += 1
 
-cairosvg.svg2png(bytestring=chess.svg.board(board, size=600),
-    write_to="image.png")
+# cairosvg.svg2png(bytestring=chess.svg.board(board, size=600),
+#     write_to="image.png")
 
 # outFile = open("output.svg", "w")
 # outFile.write(chess.svg.board(board, size=350))
