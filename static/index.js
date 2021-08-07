@@ -1,3 +1,4 @@
+// Get list of games for a Lichess user name
 async function getPlayerGames() {
     var playerName = $('#playerName').val();
     var url = new URL(`https://lichess.org/api/games/user/${playerName}`);
@@ -21,6 +22,20 @@ async function getPlayerGames() {
     }
 }
 
+// Send the PGN of a game to be rendered
+function renderPreview(gameId) {
+    var renderRequest = $.ajax({
+        type: "POST",
+        url: "./api/render",
+        data: {
+            gameId: gameId
+        }
+    });
+    renderRequest.done(console.log("Hi"));
+}
+
+var gameData = [];
+
 // TODO: Refactor this in future to use a generic method instead of having
 // a seperate regex for each value extracted.
 const whiteNameRegEx = /\[White \"(.+)\"\]/;
@@ -29,6 +44,7 @@ const whiteEloRegEx = /\[WhiteElo \"(.+)\"\]/;
 const blackEloRegEx = /\[BlackElo \"(.+)\"\]/;
 
 function extractGameData(data) {
+    gameData.push(data)
     var whiteName = whiteNameRegEx.exec(data)[1];
     var blackName = blackNameRegEx.exec(data)[1];
     var whiteElo = whiteEloRegEx.exec(data)[1];
