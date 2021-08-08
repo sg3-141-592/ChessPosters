@@ -2,6 +2,7 @@ import chess.pgn, chess.svg
 from flask import Flask, send_from_directory, request
 import io
 import json
+import os
 import renderBoard
 import uuid
 
@@ -24,5 +25,9 @@ def serve_index():
 def serve_static_files(path):
     return send_from_directory('static', path)
 
-if __name__ == "__main__":
+# Clear tmp directory on start-up
+for filename in os.listdir('tmp'):
+    os.remove('tmp/'+filename)
+
+if __name__ == "__main__": 
     app.run(debug=True)

@@ -16,7 +16,10 @@ def generatePreview(pgn):
     # Build the different states of the board
     board = game.board()
     figures = []
-    # 
+    #
+    numberMoves = getNumberMoves(game)
+    xTiles, yTiles = getTilesGroups(numberMoves)
+    #
     moveStr = ""
     for counter, move in enumerate(game.mainline_moves()):
         moveStr += board.san(move) + " "
@@ -24,12 +27,10 @@ def generatePreview(pgn):
         # TODO: Work out handling for last move when not %2
         if (counter+1)%2 == 0:
             moveNum = int((counter+1)/2)
-            figures.append(generateFigure(board, moveNum, moveStr))
+            figures.append(generateFigure(board, moveNum, moveStr, int(1200/xTiles)))
             moveStr = ""
-        if int((counter+1)%2) == 9:
-            break
     # Build main figure
-    masterFigure = sg.compose.Figure("1200","1200", *figures).tile(3,3)
+    masterFigure = sg.compose.Figure(xTiles*400,yTiles*400, *figures).tile(xTiles, yTiles)
     # Convert main figure to a png
     filename = str(uuid.uuid4())
     masterFigure.save("tmp/{}.svg".format(filename))
@@ -39,7 +40,7 @@ def generatePreview(pgn):
     file.close()
     return filename
 
-def generateFigure(board, moveNum, moveStr):
+def generateFigure(board, moveNum, moveStr, figureSize):
     tmpFilename = str(uuid.uuid4())
     # TODO: Work out if there's a way to remove the extra file i/o        
     outFile = open("./tmp/{}.svg".format(tmpFilename), "w")
@@ -50,6 +51,21 @@ def generateFigure(board, moveNum, moveStr):
         sg.compose.SVG("./tmp/{}.svg".format(tmpFilename)),
         sg.compose.Text("{}. {}".format(moveNum, moveStr), 10, 385, size=12)
     )
+
+# TODO: See if there's a more elegant way to get the number of moves
+def getNumberMoves(game):
+    counter = 0
+    for move in game.mainline_moves():
+        counter += 1
+    return counter
+
+def getTilesGroups(numberMoves):
+    if numberMoves <= 24:
+        return (3,4)
+    elif numberMoves > 24 <= 40:
+        return (4,5)
+    else:
+        return (5,7)
 
 if __name__ == "__main__":
     file = open("example.pgn", "r")
