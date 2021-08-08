@@ -15,9 +15,6 @@
  - Make the list searchable
 - Add a style for the games
 - Add a wait until the users preview has rendered
-- Chess.com games
-   - https://api.chess.com/pub/player/gmbenjaminfinegold/games/2020/10
-- PGN entry
 - Example games
 
 # Done
@@ -27,7 +24,11 @@
 - Find a way to add borders to the chessboard
 - Create a tiled page of game pictures
 - Delete tmp files on startup
+- Chess.com games
+   - https://api.chess.com/pub/player/gmbenjaminfinegold/games/2020/10
+- PGN entry
 
 ----------
 # Setup Instructions
 `export PIP_USER=false`
+`npm install --global rollup`
