@@ -31,7 +31,7 @@ b = sg.compose.Panel(
     sg.compose.Text("1. Kxh2 Qh4+", 10, 385, size=12)
 )
 
-c = sg.compose.Figure("800", "400", a, b).tile(2,1)
+c = sg.compose.Figure("800", "400", *[a, b]).tile(2,1)
 c.save("static/rendered/1/figure.svg")
 
 # a.save("static/rendered/1/figure.svg")

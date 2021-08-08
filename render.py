@@ -1,6 +1,7 @@
 import chess.pgn, chess.svg
 import io
-import svgutils.transform as sg
+import svgutils as sg
+import uuid
 
 boardColors = {
     'square light': '#ffffff',
@@ -15,31 +16,33 @@ def generatePreview(pgn):
     board = game.board()
     figures = []
     # 
+    moveStr = ""
     for counter, move in enumerate(game.mainline_moves()):
+        moveStr += board.san(move) + " "
         board.push(move)
-        print(move)
         # TODO: Work out handling for last move when not %2
-        if counter%2 == 0:
-            outFile = open("static/rendered/1/output{}.svg".format(int(counter/2)), "w")
-            figures.append(generateFigure(board))
-            outFile.write(chess.svg.board(board, size=600,
-                colors=boardColors, coordinates=False))
-            outFile.close()
+        if (counter+1)%2 == 0:
+            moveNum = int((counter+1)/2)
+            figures.append(generateFigure(board, moveNum, moveStr))
+            moveStr = ""
+        if int((counter+1)%2) == 9:
+            break
     # Build main figure
-    print(figures)
-    masterFigure = sg.SVGFigure("210cm", "297cm")
-    masterFigure.append([figures[0], figures[1]])
-    masterFigure.save("static/rendered/1/composite.svg")
+    masterFigure = sg.compose.Figure("1200","1200", *figures).tile(3,3)
+    masterFigure.save("static/rendered/1/figure.svg")
     return None
 
-def generateFigure(board):
-    fig = sg.SVGFigure("400", "400")
-    fig1 = sg.fromstring(chess.svg.board(board, size=350))
-    plot1 = fig1.getroot()
-    plot1.moveto(25, 25)
-    txt1 = sg.TextElement(25,425, "1. Kxh2 Qh4+", size=18, weight="normal", font="DejaVuSansMono")
-    fig.append([plot1, txt1])
-    return fig
+def generateFigure(board, moveNum, moveStr):
+    tmpFilename = str(uuid.uuid4())
+    # TODO: Work out if there's a way to remove the extra file i/o        
+    outFile = open("./tmp/{}.svg".format(tmpFilename), "w")
+    outFile.write(chess.svg.board(board, size=350,
+        colors=boardColors, coordinates=False))
+    outFile.close()
+    return sg.compose.Panel(
+        sg.compose.SVG("./tmp/{}.svg".format(tmpFilename)),
+        sg.compose.Text("{}. {}".format(moveNum, moveStr), 10, 385, size=12)
+    )
 
 if __name__ == "__main__":
     file = open("example.pgn", "r")
