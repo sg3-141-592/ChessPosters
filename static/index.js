@@ -35,7 +35,7 @@ function renderPreview(gameId) {
         contentType: "application/json",
         dataType: "json"
     }).done(function(data) {
-        $('#previewWindow').attr('src', `rendered/${data.id}.svg`);
+        $('#previewWindow').attr('src', `rendered/preview/${data.id}.png`);
     }).fail(function(err) {
         console.log(err);
     });
