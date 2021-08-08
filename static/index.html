@@ -8,19 +8,49 @@
     <!-- Imports -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
 <body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">
-                Chess Posters
-            </h1>
-            <p class="subtitle">
-                Getting data from Lichess
+    <section class="hero is-small is-link">
+        <!-- Hero content: will be in the middle -->
+        <div class="hero-body">
+          <div class="container has-text-centered">
+            <p class="title">
+              Chess Posters
             </p>
+          </div>
         </div>
     </section>
-    <section class="section">
+    <div class="tabs is-centered">
+        <ul>
+            <li id="exampleTab" class="is-active">
+                <a>
+                    <span class="icon is-small"><i class="fas fa-magic" aria-hidden="true"></i></span>
+                    <span>Examples</span>
+                </a>
+            </li>
+            <li id="lichessTab">
+                <a onclick="showLichess();">
+                    <span class="icon is-small"><i class="fas fa-chess-king" aria-hidden="true"></i></span>
+                    <span>Lichess</span>
+                </a>
+            </li>
+            <li id="chessTab">
+                <a onclick="showChess();">
+                    <span class="icon is-small"><i class="fas fa-chess-pawn" aria-hidden="true"></i></span>
+                    <span>Chess.com</span>
+                </a>
+            </li>
+            <li id="pgnTab">
+                <a onclick="showPGN();">
+                    <span class="icon is-small"><i class="fas fa-sticky-note" aria-hidden="true"></i></span>
+                    <span>PGN</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- Lichess -->
+    <div id="LichessSelectionPage">
         <div class="container">
             <div class="columns">
                 <div class="column">
@@ -29,8 +59,8 @@
                             <input class="input" id="playerName" type="text" placeholder="MrFoxGaming">
                         </div>
                         <div class="control">
-                            <a onclick="getPlayerGames();" class="button is-info">
-                              Search
+                            <a onclick="getLichessPlayerGames();" class="button is-info">
+                            Search
                             </a>
                         </div>
                     </div>
@@ -38,12 +68,51 @@
                 <div id="playerGames" class="column">
                     
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Chess.com -->
+    <div id="ChessSelectionPage">
+        <div class="container">
+            <div class="columns">
                 <div class="column">
-                    <img id="previewWindow"/>
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input" id="playerNameChess" type="text" placeholder="gmbenjaminfinegold">
+                        </div>
+                        <div class="control">
+                            <a onclick="getPlayerGames();" class="button is-info">
+                            Search
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="playerGames" class="column">
+                    
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+    <!-- PGN -->
+    <div id="PGNPage">
+        <section class="section">
+            <div class="container">
+                <div class="field">
+                    <div class="control">
+                        <textarea class="textarea" id="pgnText" placeholder="Enter PGN data"></textarea>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button onclick="renderPreviewPGN();" class="button is-link is-fullwidth">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="container">
+        <img id="previewWindow"/>
+    </div>
     <script src="index.js"></script>
 </body>
 </html>

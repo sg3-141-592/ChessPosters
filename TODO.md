@@ -8,8 +8,6 @@
     - 3x4 = 24 moves (1200/3=400)
     - 4x5 = 40 moves (1200/4=300)
     - 5x7 = 70 moves (1200/5=240)
-- Get games from Chess.com
-- Allow users to enter a PGN
 
 ## Frontend
 - User game list
@@ -17,6 +15,10 @@
  - Make the list searchable
 - Add a style for the games
 - Add a wait until the users preview has rendered
+- Chess.com games
+   - https://api.chess.com/pub/player/gmbenjaminfinegold/games/2020/10
+- PGN entry
+- Example games
 
 # Done
 - Connect to the Lichess API

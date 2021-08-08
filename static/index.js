@@ -1,5 +1,40 @@
+// On startup hide all of the sections
+$('#LichessSelectionPage').hide();
+$('#PGNPage').hide();
+$('#ChessSelectionPage').hide();
+
+function showLichess() {
+    $('#LichessSelectionPage').show();
+    $('#PGNPage').hide();
+    $('#ChessSelectionPage').hide();
+    $('#exampleTab').removeClass('is-active');
+    $('#lichessTab').addClass('is-active');
+    $('#chessTab').removeClass('is-active');
+    $('#pgnTab').removeClass('is-active');
+}
+
+function showChess() {
+    $('#LichessSelectionPage').hide();
+    $('#PGNPage').hide();
+    $('#ChessSelectionPage').show();
+    $('#exampleTab').removeClass('is-active');
+    $('#lichessTab').removeClass('is-active');
+    $('#chessTab').addClass('is-active');
+    $('#pgnTab').removeClass('is-active');
+}
+
+function showPGN() {
+    $('#LichessSelectionPage').hide();
+    $('#PGNPage').show();
+    $('#ChessSelectionPage').hide();
+    $('#exampleTab').removeClass('is-active');
+    $('#lichessTab').removeClass('is-active');
+    $('#chessTab').removeClass('is-active');
+    $('#pgnTab').addClass('is-active');
+}
+
 // Get list of games for a Lichess user name
-async function getPlayerGames() {
+async function getLichessPlayerGames() {
     var playerName = $('#playerName').val();
     var url = new URL(`https://lichess.org/api/games/user/${playerName}`);
     url.search = new URLSearchParams({max: 10});
@@ -24,13 +59,21 @@ async function getPlayerGames() {
 
 var gameData = [];
 
+function renderPreviewLichess(gameId) {
+    renderPreview(gameData[gameId]);
+}
+
+function renderPreviewPGN() {
+    renderPreview($('#pgnText').val());
+}
+
 // Send the PGN of a game to be rendered
-function renderPreview(gameId) {
+function renderPreview(pgn) {
     var renderRequest = $.ajax({
         type: "POST",
         url: "./api/render",
         data: JSON.stringify({
-            gameData: gameData[gameId]
+            gameData: pgn
         }),
         contentType: "application/json",
         dataType: "json"
@@ -56,7 +99,7 @@ function extractGameData(data) {
     var blackElo = blackEloRegEx.exec(data)[1];
     $('#playerGames').append(
         $('<div>')
-            .attr('onclick', `renderPreview(${gameData.length-1})`)
+            .attr('onclick', `renderPreviewLichess(${gameData.length-1})`)
             .text(
                 `${whiteName} ${whiteElo} - ${blackName} ${blackElo}`
             )
