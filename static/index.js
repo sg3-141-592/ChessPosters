@@ -33,9 +33,43 @@ function showPGN() {
     $('#pgnTab').addClass('is-active');
 }
 
+// Get list of games for a Chess.com user name
+function getChessPlayerGames() {
+    // https://api.chess.com/pub/player/rmchess1954/games/archives
+    var monthsRequest = $.ajax({
+        type: "GET",
+        url: `https://api.chess.com/pub/player/${$('#playerNameChess').val()}/games/archives`,
+        dataType: "json"
+    }).done(function(data) {
+        // Get the games from the latest month for the player
+        var lastestMonthURL = data.archives[data.archives.length - 1];
+        var recentGamesList = $.ajax({
+            type: "GET",
+            url: lastestMonthURL,
+            dataType: "json"
+        }).done(function(data) {
+            data.games.forEach(element => {
+                $('#playerGamesChess').append(
+                    $('<div>')
+                        .attr('onclick', `renderPreviewLichess(${gameData.length-1})`)
+                        .text(
+                            `${element.white.username} ${element.white.rating} - ${element.black.username} ${element.black.rating}`
+                        )
+                );
+            });
+        }).fail(function(err) {
+            console.log(err);
+        });
+        console.log(data);
+    }).fail(function(err) {
+        console.log(err);
+    });
+    
+}
+
 // Get list of games for a Lichess user name
 async function getLichessPlayerGames() {
-    var playerName = $('#playerName').val();
+    var playerName = $('#playerNameLichess').val();
     var url = new URL(`https://lichess.org/api/games/user/${playerName}`);
     url.search = new URLSearchParams({max: 10});
     const response = await fetch(url);
@@ -97,7 +131,7 @@ function extractGameData(data) {
     var blackName = blackNameRegEx.exec(data)[1];
     var whiteElo = whiteEloRegEx.exec(data)[1];
     var blackElo = blackEloRegEx.exec(data)[1];
-    $('#playerGames').append(
+    $('#playerGamesLichess').append(
         $('<div>')
             .attr('onclick', `renderPreviewLichess(${gameData.length-1})`)
             .text(
