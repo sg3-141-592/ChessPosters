@@ -85,7 +85,7 @@ export async function getLichessPlayerGames() {
     getPlayerGames($('#playerNameLichess').val());
 }
 
-var gameData = [];
+export var gameData = [];
 
 function renderPreviewLichess(gameId) {
     renderPreview(gameData[gameId]);
