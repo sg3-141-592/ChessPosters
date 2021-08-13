@@ -69,7 +69,7 @@ function getChessPlayerGames() {
 
 // Get list of games for a Lichess user name
 async function getLichessPlayerGames() {
-    var playerName = $('#playerNameLichess').val();
+    var playerName = $('#playerName').val();
     var url = new URL(`https://lichess.org/api/games/user/${playerName}`);
     url.search = new URLSearchParams({max: 10});
     const response = await fetch(url);
@@ -131,7 +131,7 @@ function extractGameData(data) {
     var blackName = blackNameRegEx.exec(data)[1];
     var whiteElo = whiteEloRegEx.exec(data)[1];
     var blackElo = blackEloRegEx.exec(data)[1];
-    $('#playerGamesLichess').append(
+    $('#playerGames').append(
         $('<div>')
             .attr('onclick', `renderPreviewLichess(${gameData.length-1})`)
             .text(
